@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_managenent/ui/Screen/splash_screen.dart';
 
 class TaskManager extends StatelessWidget {
   const TaskManager({super.key});
@@ -6,6 +7,7 @@ class TaskManager extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      home: SplashScreen(),
     );
   }
 }
