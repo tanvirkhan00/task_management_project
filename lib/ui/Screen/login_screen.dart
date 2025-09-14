@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:task_managenent/ui/Screen/signup_screen.dart';
 import 'package:task_managenent/ui/widgets/screen_background.dart';
 
+import 'forget_password_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -52,11 +54,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       Center(
                         child: Column(
                           children: [
-                            TextButton(onPressed: (){} ,
+                            TextButton(onPressed: _onTapForgetPassword ,
                                 child: Text('Forget Password', style: TextStyle(
                                   color: Colors.grey
                                 ),)
                             ),
+                            SizedBox(height: 10,),
                             RichText(text: TextSpan(
                               style: TextStyle(
                                 color: Colors.black,
@@ -84,6 +87,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _signUpTab() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => SignupScreen()));
+  }
+  void _onTapForgetPassword (){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPasswordViaEmail()));
   }
 
   @override
