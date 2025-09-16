@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_managenent/ui/Screen/main_nav_holder_Screen.dart';
 
 import '../widgets/screen_background.dart';
 
@@ -73,7 +74,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     const SizedBox(height: 8,),
                     const SizedBox(height: 8,),
-                    FilledButton(onPressed: (){},
+                    FilledButton(onPressed: _onTapMainNavHolderButton,
                         child: Icon(Icons.arrow_circle_right_outlined)),
                     const SizedBox( height: 36,),
                     Center(
@@ -89,7 +90,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               children: [TextSpan(text: 'Login', style: TextStyle(
                                   color: Colors.green
                               ),
-                                  recognizer: TapGestureRecognizer()..onTap = _ontaplogin
+                                  recognizer: TapGestureRecognizer()..onTap = _ontaploginButton
                               )]
                           )),
                         ],
@@ -104,9 +105,16 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  void _ontaplogin() {
+  void _ontaploginButton() {
     Navigator.pop(context);
   }
+
+  void _onTapMainNavHolderButton() {
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainNavHolderScreen()),
+        (predicate)=> false
+    );
+  }
+
 
   @override
   void dispose() {

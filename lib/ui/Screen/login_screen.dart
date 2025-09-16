@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_managenent/ui/Screen/main_nav_holder_Screen.dart';
 import 'package:task_managenent/ui/Screen/signup_screen.dart';
 import 'package:task_managenent/ui/widgets/screen_background.dart';
 
@@ -48,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(height: 8,),
-                      FilledButton(onPressed: (){},
+                      FilledButton(onPressed: _mainNavHolderScreenButton,
                           child: Icon(Icons.arrow_circle_right_outlined)),
                       const SizedBox( height: 36,),
                       Center(
@@ -90,6 +91,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   void _onTapForgetPassword (){
     Navigator.push(context, MaterialPageRoute(builder: (context) => ForgetPasswordViaEmail()));
+  }
+
+  void _mainNavHolderScreenButton() {
+    Navigator.pushAndRemoveUntil(
+        context, MaterialPageRoute(builder: (context) => MainNavHolderScreen()),
+      (predicate) => false,
+    );
   }
 
   @override
