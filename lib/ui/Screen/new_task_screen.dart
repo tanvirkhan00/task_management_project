@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:task_managenent/ui/Screen/add_new_task_screen.dart';
 import 'package:task_managenent/ui/widgets/task_count_card.dart';
 
 import '../widgets/task-card.dart';
 
-class Progresstaskscreen extends StatefulWidget {
-  const Progresstaskscreen({super.key});
+class Newtaskscreen extends StatefulWidget {
+  const Newtaskscreen({super.key});
 
   @override
-  State<Progresstaskscreen> createState() => _ProgresstaskscreenState();
+  State<Newtaskscreen> createState() => _NewtaskscreenState();
 }
 
-class _ProgresstaskscreenState extends State<Progresstaskscreen> {
+class _NewtaskscreenState extends State<Newtaskscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +37,15 @@ class _ProgresstaskscreenState extends State<Progresstaskscreen> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _addNewTaskButton,
+        child: Icon(Icons.add),
+      ),
     );
+  }
+
+  void _addNewTaskButton() {
+    Navigator.push(context, MaterialPageRoute(builder: (context)=> AddNewTaskScreen()));
   }
 }
 
