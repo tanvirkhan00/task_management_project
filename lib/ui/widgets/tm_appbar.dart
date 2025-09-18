@@ -3,15 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:task_managenent/ui/Screen/update_profile_screen.dart';
 
 class TMAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const TMAppBar({super.key});
+  const TMAppBar({super.key, this.fromUpdateProfile});
+
+  final bool? fromUpdateProfile;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.green,
       title: GestureDetector(
-        onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> UpdateProfileScreen()));
+        onTap: () {
+          if(fromUpdateProfile ?? false) {
+            return ;
+          }
+          Navigator.pushNamed(
+            context, UpdateProfileScreen.name,
+          );
         },
         child: Row(
           spacing: 10,

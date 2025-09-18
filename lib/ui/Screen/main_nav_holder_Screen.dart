@@ -6,6 +6,8 @@ import 'package:task_managenent/ui/widgets/tm_appbar.dart';
 class MainNavHolderScreen extends StatefulWidget {
   const MainNavHolderScreen({super.key});
 
+  static const String name = '/dashboard';
+
   @override
   State<MainNavHolderScreen> createState() => _MainNavHolderScreenState();
 }
