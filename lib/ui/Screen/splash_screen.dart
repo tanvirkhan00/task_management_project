@@ -7,12 +7,11 @@ import 'package:task_managenent/ui/widgets/screen_background.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
+  static const String name = '/';
+
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
-
-
-
 class _SplashScreenState extends State<SplashScreen> {
 
   @override
@@ -24,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _moveNextScreen () async {
     await Future.delayed(Duration(seconds: 1));
-    Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
+    Navigator.pushReplacementNamed(context, LoginScreen.name);
   }
 
   @override

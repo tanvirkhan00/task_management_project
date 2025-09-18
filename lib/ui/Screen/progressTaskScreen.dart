@@ -6,6 +6,8 @@ import '../widgets/task-card.dart';
 class Progresstaskscreen extends StatefulWidget {
   const Progresstaskscreen({super.key});
 
+  static const String name ='/dashboard';
+
   @override
   State<Progresstaskscreen> createState() => _ProgresstaskscreenState();
 }
