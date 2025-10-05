@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:task_managenent/ui/Screen/main_nav_holder_Screen.dart';
@@ -18,10 +19,10 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailEditingController = TextEditingController();
   final TextEditingController _fnameEditingController = TextEditingController();
   final TextEditingController _lnameEditingController = TextEditingController();
-  final TextEditingController _numberEditingController =
-      TextEditingController();
-  final TextEditingController _passwordEditingController =
-      TextEditingController();
+  final TextEditingController _numberEditingController =TextEditingController();
+  final TextEditingController _passwordEditingController = TextEditingController();
+
+  bool _singupInProgress = false ;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class _SignupScreenState extends State<SignupScreen> {
             padding: const EdgeInsets.all(16),
             child: Form(
               key: _formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -43,34 +45,74 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(height: 24),
                   TextFormField(
                     controller: _emailEditingController,
+                    textInputAction: TextInputAction.next,
                     decoration: InputDecoration(hintText: 'Email'),
+                    validator: (String? value) {
+                      String inputText= value ?? '' ;
+                      if(EmailValidator.validate(inputText) == false) {
+                        return "Enter a valid e-mail";
+                      } else {
+                        return null ;
+                      }
+                    },
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _fnameEditingController,
+                    textInputAction: TextInputAction.next,
+                    validator: (String? value) {
+                      if(value?.trim().isEmpty ?? true) {
+                        return "Enter your first name";
+                      } else {
+                        return null ;
+                      }
+                    },
                     decoration: InputDecoration(hintText: 'First Name'),
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
+                    textInputAction: TextInputAction.next,
                     controller: _lnameEditingController,
+                    validator: (String? value) {
+                      if(value?.trim().isEmpty ?? true) {
+                        return "Enter your last name";
+                      } else {
+                        return null ;
+                      }
+                    },
                     decoration: InputDecoration(hintText: 'Last Name'),
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
+                    textInputAction: TextInputAction.next,
                     controller: _numberEditingController,
-                    keyboardType: TextInputType.number,
+                    validator: (String? value) {
+                      if(value?.trim().isEmpty ?? true) {
+                        return "Enter your number";
+                      } else {
+                        return null ;
+                      }
+                    },
+                    keyboardType: TextInputType.phone,
                     decoration: InputDecoration(hintText: 'Phone'),
                   ),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _passwordEditingController,
+                    validator: (String? value) {
+                      if((value?.length ?? 0) <= 6) {
+                        return "Enter a password more that 6";
+                      } else {
+                        return null ;
+                      }
+                    },
                     obscureText: true,
                     decoration: InputDecoration(hintText: 'Password'),
                   ),
                   const SizedBox(height: 8),
                   const SizedBox(height: 8),
                   FilledButton(
-                    onPressed: _onTapMainNavHolderButton,
+                    onPressed: _onTapSubmitButton,
                     child: Icon(Icons.arrow_circle_right_outlined),
                   ),
                   const SizedBox(height: 36),
@@ -107,16 +149,34 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
+  void _onTapSubmitButton () {
+    if (_formKey.currentState!.validate()) {
+      // todo: register this user
+    }
+  }
+
   void _ontaploginButton() {
     Navigator.pop(context);
   }
 
-  void _onTapMainNavHolderButton() {
-    Navigator.pushNamedAndRemoveUntil(
-      context, MainNavHolderScreen.name,
-      (predicate) => false,
-    );
+  Future<void> _signup() async {
+    _singupInProgress = true ;
+    setState(() {});
+    Map<String, dynamic> requestBody ={
+        "email":_emailEditingController.text.trim(),
+        "firstName":_fnameEditingController.text.trim(),
+        "lastName":_lnameEditingController.text.trim(),
+        "mobile":_numberEditingController.text.trim(),
+        "password":_passwordEditingController.text
+    };
   }
+
+  // void _onTapMainNavHolderButton() {
+  //   Navigator.pushNamedAndRemoveUntil(
+  //     context, MainNavHolderScreen.name,
+  //     (predicate) => false,
+  //   );
+  // }
 
   @override
   void dispose() {
