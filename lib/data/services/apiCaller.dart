@@ -32,6 +32,7 @@ class apiCaller {
             isSuccess: false,
             responseCode: statusCode,
             responseData: decodedData,
+            errorMessage: decodedData['data']
         );
       }
     } on Exception catch (e) {
@@ -64,7 +65,8 @@ class apiCaller {
         return ApiResponse(
             isSuccess: true,
             responseCode: statusCode,
-            responseData: decodedData
+            responseData: decodedData,
+            errorMessage: decodedData['data']
         );
       } else {
         // Failed
