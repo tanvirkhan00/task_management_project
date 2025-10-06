@@ -32,6 +32,7 @@ class apiCaller {
             isSuccess: false,
             responseCode: statusCode,
             responseData: decodedData,
+            errorMessage: decodedData['data']
         );
       }
     } on Exception catch (e) {
@@ -49,7 +50,10 @@ class apiCaller {
       Uri uri = Uri.parse(url);
       _logRequest(url, body: body);
 
-      Response response = await post(uri) ;
+      Response response = await post(uri,
+      headers: {"content-type": "application/json"},
+      body: jsonEncode(body)
+      ) ;
       _logResponse(url, response);
 
       final int statusCode = response.statusCode;
@@ -61,7 +65,8 @@ class apiCaller {
         return ApiResponse(
             isSuccess: true,
             responseCode: statusCode,
-            responseData: decodedData
+            responseData: decodedData,
+            errorMessage: decodedData['data']
         );
       } else {
         // Failed

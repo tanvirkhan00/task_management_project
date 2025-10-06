@@ -1,7 +1,10 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_managenent/data/services/apiCaller.dart';
+import 'package:task_managenent/data/utils/urls.dart';
 import 'package:task_managenent/ui/Screen/main_nav_holder_Screen.dart';
+import 'package:task_managenent/ui/widgets/snack_bar_message.dart';
 
 import '../widgets/screen_background.dart';
 
@@ -111,9 +114,15 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   const SizedBox(height: 8),
                   const SizedBox(height: 8),
-                  FilledButton(
-                    onPressed: _onTapSubmitButton,
-                    child: Icon(Icons.arrow_circle_right_outlined),
+                  Visibility(
+                    visible: _singupInProgress == false,
+                    replacement: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    child: FilledButton(
+                      onPressed: _onTapSubmitButton,
+                      child: Icon(Icons.arrow_circle_right_outlined),
+                    ),
                   ),
                   const SizedBox(height: 36),
                   Center(
@@ -151,7 +160,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   void _onTapSubmitButton () {
     if (_formKey.currentState!.validate()) {
-      // todo: register this user
+      _signup() ;
     }
   }
 
@@ -169,14 +178,31 @@ class _SignupScreenState extends State<SignupScreen> {
         "mobile":_numberEditingController.text.trim(),
         "password":_passwordEditingController.text
     };
+
+    final ApiResponse response = await apiCaller.postRequest(url: Urls.registrationUrl,
+    body: requestBody
+    );
+
+    _singupInProgress = false ;
+    setState(() { });
+
+    if(response.isSuccess) {
+      _clearfield();
+      showSnakbarMessage(context, "Registration Success! Please login");
+
+    } else {
+      showSnakbarMessage(context, response.errorMessage!);
+    }
+
   }
 
-  // void _onTapMainNavHolderButton() {
-  //   Navigator.pushNamedAndRemoveUntil(
-  //     context, MainNavHolderScreen.name,
-  //     (predicate) => false,
-  //   );
-  // }
+  void _clearfield() {
+    _emailEditingController.clear();
+    _fnameEditingController.clear();
+    _lnameEditingController.clear();
+    _numberEditingController.clear();
+    _passwordEditingController.clear();
+}
 
   @override
   void dispose() {
