@@ -1,10 +1,12 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:task_managenent/data/models/user-models.dart';
 import 'package:task_managenent/data/services/apiCaller.dart';
 import 'package:task_managenent/data/utils/urls.dart';
 import 'package:task_managenent/ui/Screen/main_nav_holder_Screen.dart';
 import 'package:task_managenent/ui/Screen/signup_screen.dart';
+import 'package:task_managenent/ui/controllers/auth-controller.dart';
 import 'package:task_managenent/ui/widgets/screen_background.dart';
 import 'package:task_managenent/ui/widgets/snack_bar_message.dart';
 
@@ -150,6 +152,12 @@ class _LoginScreenState extends State<LoginScreen> {
     body: requestBody
     );
     if(response.isSuccess && response.responseData['status'] == 'success') {
+
+      UserModel model = UserModel.fromJson(response.responseData['data']);
+      String accessToken = response.responseData['token'];
+
+      await AuthController.saveUserdata(model, accessToken);
+
       Navigator.pushNamedAndRemoveUntil(
         context,
         MainNavHolderScreen.name,
