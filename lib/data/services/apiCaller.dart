@@ -66,7 +66,6 @@ class apiCaller {
             isSuccess: true,
             responseCode: statusCode,
             responseData: decodedData,
-            errorMessage: decodedData['data']
         );
       } else {
         // Failed
@@ -75,6 +74,7 @@ class apiCaller {
             isSuccess: false,
             responseCode: statusCode,
             responseData: decodedData,
+            errorMessage: decodedData['message'] ?? 'Something went wrong',
         );
       }
     } on Exception catch (e) {
