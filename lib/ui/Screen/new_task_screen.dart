@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:task_managenent/data/models/task_status_count_model.dart';
+import 'package:task_managenent/data/services/apiCaller.dart';
+import 'package:task_managenent/data/utils/urls.dart';
 import 'package:task_managenent/ui/Screen/add_new_task_screen.dart';
+import 'package:task_managenent/ui/widgets/snack_bar_message.dart';
 import 'package:task_managenent/ui/widgets/task_count_card.dart';
 
 import '../widgets/task-card.dart';
@@ -12,6 +16,34 @@ class Newtaskscreen extends StatefulWidget {
 }
 
 class _NewtaskscreenState extends State<Newtaskscreen> {
+
+  bool _getStatusCountInProgress = false ;
+  List<TaskStatusCountModel> _taskStatusCountList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _addNewTaskStatusCount();
+  }
+
+  Future<void> _addNewTaskStatusCount() async {
+    _getStatusCountInProgress = true;
+    setState(() {});
+    final ApiResponse response = await apiCaller.getRequest(url: Urls.statatusCount);
+    if(response.isSuccess) {
+      List<TaskStatusCountModel> list = [];
+      for (Map<String, dynamic> jsonData in response.responseData['data']) {
+        list.add(TaskStatusCountModel.fromJson(jsonData));
+      }
+      _taskStatusCountList = list ;
+    } else {
+      showSnakbarMessage(context, response.errorMessage!);
+    }
+    _getStatusCountInProgress = false;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,15 +54,21 @@ class _NewtaskscreenState extends State<Newtaskscreen> {
             const SizedBox(height: 16),
             SizedBox(
               height: 100,
-              child: ListView.separated(
-                itemCount: 4,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return TCStatusCard(title: 'New', count: 05);
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 08);
-                },
+              child: Visibility(
+                visible: _getStatusCountInProgress == false,
+                replacement: Center(
+                  child: CircularProgressIndicator(),),
+                child: ListView.separated(
+                  itemCount: _taskStatusCountList.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return TCStatusCard(title: _taskStatusCountList[index].status,
+                        count: _taskStatusCountList[index].count);
+                  },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 08);
+                  },
+                ),
               ),
             ),
             taskCard(),
