@@ -101,6 +101,9 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
       body: requestBody,
     );
 
+    _addNewTaskInProgress = false ;
+    setState(() {});
+
     if (response.isSuccess) {
       _clearFields();
       showSnakbarMessage(context, "New Task Added");
