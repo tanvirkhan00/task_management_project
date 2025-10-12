@@ -1,7 +1,10 @@
 
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
+import 'package:task_managenent/app.dart';
+import 'package:task_managenent/ui/Screen/login_screen.dart';
 import 'package:task_managenent/ui/controllers/auth-controller.dart';
 
 class apiCaller {
@@ -28,6 +31,14 @@ class apiCaller {
             responseCode: statusCode,
             responseData: decodedData
         );
+      } else if(statusCode == 401) {
+          await _moveToLogin();
+          return ApiResponse(
+              isSuccess: false,
+              responseCode: statusCode,
+              errorMessage: "Un-Authorized",
+              responseData: null,
+          );
       } else {
         // Failed
         final decodedData = jsonDecode(response.body);
@@ -72,6 +83,14 @@ class apiCaller {
             responseCode: statusCode,
             responseData: decodedData,
         );
+      } else if(statusCode == 401) {
+        await _moveToLogin();
+        return ApiResponse(
+          isSuccess: false,
+          responseCode: statusCode,
+          errorMessage: "Un-Authorized",
+          responseData: null,
+        );
       } else {
         // Failed
         final decodedData = jsonDecode(response.body);
@@ -93,19 +112,23 @@ class apiCaller {
     }
   }
 
- static void _logRequest (String url, {Map<String, dynamic>? body}) {
+  static void _logRequest (String url, {Map<String, dynamic>? body}) {
     _logger.i("URL => $url\n"
     "Request Body: $body"
     );
   }
 
- static void _logResponse (String url, Response response ) {
+  static void _logResponse (String url, Response response ) {
     _logger.i("URL => $url\n"
     "Status Code: ${response.statusCode}\n"
         "Body: ${response.body}"
     );
   }
 
+   static Future<void> _moveToLogin() async {
+     await AuthController.clearUserData();
+     Navigator.pushNamedAndRemoveUntil(TaskManager.navigator.currentContext!, LoginScreen.name, (predicate) => false);
+   }
 }
 
 class ApiResponse {

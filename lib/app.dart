@@ -9,10 +9,13 @@ import 'package:task_managenent/ui/Screen/update_profile_screen.dart';
 class TaskManager extends StatelessWidget {
   const TaskManager({super.key});
 
+  static GlobalKey<NavigatorState> navigator = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: SplashScreen.name,
+      navigatorKey: navigator,
       routes: {
         SplashScreen.name : (_) => SplashScreen(),
         SignupScreen.name : (_) => SignupScreen(),
