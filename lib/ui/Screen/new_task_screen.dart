@@ -101,7 +101,10 @@ class _NewtaskscreenState extends State<Newtaskscreen> {
                   child: ListView.separated(
                   itemCount: _newTaskList.length,
                     itemBuilder: (context, index) {
-                    return taskCard(taskModel: _newTaskList[index],);
+                    return taskCard(taskModel: _newTaskList[index],
+                    refreshParent: () {
+                      _getAllNewTask();
+                    },);
                     },
                     separatorBuilder: (context,index) {
                      return SizedBox( height: 8,);
