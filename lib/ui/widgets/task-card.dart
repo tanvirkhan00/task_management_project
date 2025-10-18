@@ -17,6 +17,7 @@ class taskCard extends StatefulWidget {
 
 class _taskCardState extends State<taskCard> {
   bool _changeStatusInProgress = false;
+  bool _deleteTaskInProgress = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +42,17 @@ class _taskCardState extends State<taskCard> {
                 labelStyle: TextStyle(color: Colors.white),
               ),
               Spacer(),
-              IconButton(
-                onPressed: (){},
-                icon: Icon(Icons.delete, color: Colors.red),
+              Visibility(
+                visible: _deleteTaskInProgress == false,
+                replacement: Center(
+                  child: CircularProgressIndicator(),
+                ),
+                child: IconButton(
+                  onPressed: (){
+                    _deleteTask();
+                  } ,
+                  icon: Icon(Icons.delete, color: Colors.red),
+                ),
               ),
               Visibility(
                 visible: _changeStatusInProgress == false,
@@ -127,6 +136,20 @@ class _taskCardState extends State<taskCard> {
     final ApiResponse response = await apiCaller.getRequest(
       url: Urls.updateTaskStatus(widget.taskModel.id, status),);
     _changeStatusInProgress = false;
+    setState(() {});
+    if(response.isSuccess) {
+      widget.refreshParent();
+    } else {
+      showSnakbarMessage(context, response.errorMessage!);
+    }
+  }
+  Future<void> _deleteTask() async {
+    _deleteTaskInProgress = true;
+    setState(() {});
+
+    final ApiResponse response = await apiCaller.getRequest(
+      url: Urls.deleteTask(widget.taskModel.id), );
+    _deleteTaskInProgress = false;
     setState(() {});
     if(response.isSuccess) {
       widget.refreshParent();
