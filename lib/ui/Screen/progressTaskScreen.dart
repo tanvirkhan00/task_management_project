@@ -8,14 +8,13 @@ import '../widgets/task-card.dart';
 class Progresstaskscreen extends StatefulWidget {
   const Progresstaskscreen({super.key});
 
-  static const String name ='/dashboard';
+  static const String name = '/dashboard';
 
   @override
   State<Progresstaskscreen> createState() => _ProgresstaskscreenState();
 }
 
 class _ProgresstaskscreenState extends State<Progresstaskscreen> {
-
   bool _getProgressTaskInProgress = false;
   List<TaskModel> _progressTaskList = [];
 
@@ -29,13 +28,15 @@ class _ProgresstaskscreenState extends State<Progresstaskscreen> {
   Future<void> _getAllProgressTask() async {
     _getProgressTaskInProgress = true;
     setState(() {});
-    final ApiResponse response = await apiCaller.getRequest(url: Urls.progressTaskListUrl);
-    if(response.isSuccess) {
+    final ApiResponse response = await apiCaller.getRequest(
+      url: Urls.progressTaskListUrl,
+    );
+    if (response.isSuccess) {
       List<TaskModel> list = [];
       for (Map<String, dynamic> jsonData in response.responseData['data']) {
         list.add(TaskModel.fromJson(jsonData));
       }
-      _progressTaskList = list ;
+      _progressTaskList = list;
     } else {
       showSnakbarMessage(context, response.errorMessage!);
     }
@@ -50,16 +51,16 @@ class _ProgresstaskscreenState extends State<Progresstaskscreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Visibility(
           visible: _getProgressTaskInProgress == false,
-          replacement: Center(
-            child: CircularProgressIndicator(),
-          ),
+          replacement: Center(child: CircularProgressIndicator()),
           child: ListView.separated(
             itemCount: _progressTaskList.length,
             itemBuilder: (context, index) {
-              return taskCard(taskModel: _progressTaskList[index],
-                  refreshParent: (){
-                   _getAllProgressTask();
-                  });
+              return taskCard(
+                taskModel: _progressTaskList[index],
+                refreshParent: () {
+                  _getAllProgressTask();
+                },
+              );
             },
             separatorBuilder: (context, index) {
               return SizedBox(height: 8);
@@ -70,4 +71,3 @@ class _ProgresstaskscreenState extends State<Progresstaskscreen> {
     );
   }
 }
-
