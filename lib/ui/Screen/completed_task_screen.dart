@@ -5,41 +5,44 @@ import 'package:task_managenent/data/utils/urls.dart';
 import 'package:task_managenent/ui/widgets/snack_bar_message.dart';
 import 'package:task_managenent/ui/widgets/task-card.dart';
 
-class CancelledTaskScreen extends StatefulWidget {
-  const CancelledTaskScreen({super.key});
+class CompletedTaskScreen extends StatefulWidget {
+  const CompletedTaskScreen({super.key});
 
   static const String name = '/dashboard';
 
   @override
-  State<CancelledTaskScreen> createState() => _CancelledTaskScreenState();
+  State<CompletedTaskScreen> createState() => _CompletedTaskScreenState();
 }
 
-class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
-  List<TaskModel> _cancelledTask = [];
-  bool _cancelledTaskInProgress = false ;
+class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
+  List<TaskModel> _completedTask = [];
+  bool _completedTaskInProgress = false;
+
+
 
   @override
   void initState() {
     super.initState();
-    _getAllCancelledTask();
+    _getAllCompletedTask();
   }
 
-  Future<void> _getAllCancelledTask() async {
-    _cancelledTaskInProgress = true ;
+  Future<void> _getAllCompletedTask() async {
+    _completedTaskInProgress = true;
     setState(() {});
+
     final ApiResponse response = await apiCaller.getRequest(
-      url: Urls.cancelledTaskListUrl,
+      url: Urls.completedTaskListUrl,
     );
-    if (response.isSuccess) {
-      List<TaskModel> list = [];
-      for (Map<String, dynamic> jsonData in response.responseData['data']) {
+    if(response.isSuccess) {
+      List<TaskModel> list =[];
+      for(Map<String, dynamic> jsonData in response.responseData['data']) {
         list.add(TaskModel.fromJson(jsonData));
       }
-      _cancelledTask = list;
+      _completedTask = list ;
     } else {
       showSnakbarMessage(context, response.errorMessage!);
     }
-    _cancelledTaskInProgress = false;
+    _completedTaskInProgress = false;
     setState(() {});
   }
 
@@ -47,23 +50,23 @@ class _CancelledTaskScreenState extends State<CancelledTaskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Visibility(
-        visible: _cancelledTaskInProgress == false,
+        visible: _completedTaskInProgress == false,
         replacement: Center(
           child: CircularProgressIndicator(),
         ),
         child: ListView.separated(
           padding: EdgeInsets.symmetric(horizontal: 10),
-          itemCount: _cancelledTask.length,
+          itemCount: _completedTask.length,
           itemBuilder: (context, index) {
             return taskCard(
-              taskModel: _cancelledTask[index],
+              taskModel: _completedTask[index],
               refreshParent: () {
-                _getAllCancelledTask();
+                _getAllCompletedTask();
               },
             );
           },
           separatorBuilder: (context, index) {
-            return SizedBox(height: 8);
+            return SizedBox(height: 10);
           },
         ),
       ),

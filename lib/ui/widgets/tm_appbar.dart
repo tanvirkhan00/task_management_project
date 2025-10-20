@@ -20,7 +20,7 @@ class TMAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _TMAppBarState extends State<TMAppBar> {
-  final _profilePhoto =AuthController.userModel!.photo;
+  final _profilePhoto = AuthController.userModel!.photo;
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +28,18 @@ class _TMAppBarState extends State<TMAppBar> {
       backgroundColor: Colors.green,
       title: GestureDetector(
         onTap: () {
-          if(widget.fromUpdateProfile ?? false) {
-            return ;
+          if (widget.fromUpdateProfile ?? false) {
+            return;
           }
-          Navigator.pushNamed(
-            context, UpdateProfileScreen.name,
-          );
+          Navigator.pushNamed(context, UpdateProfileScreen.name);
         },
         child: Row(
           spacing: 10,
           children: [
             CircleAvatar(
-              child: _profilePhoto.isNotEmpty ? Image.memory(jsonDecode(_profilePhoto)) : Icon(Icons.person),
+              child: _profilePhoto.isNotEmpty
+                  ? Image.memory(jsonDecode(_profilePhoto))
+                  : Icon(Icons.person),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +51,7 @@ class _TMAppBarState extends State<TMAppBar> {
                   ).textTheme.titleSmall?.copyWith(color: Colors.white),
                 ),
                 Text(
-                  AuthController.userModel?.email?? '',
+                  AuthController.userModel?.email ?? '',
                   style: Theme.of(
                     context,
                   ).textTheme.bodySmall?.copyWith(color: Colors.white),
@@ -68,6 +68,9 @@ class _TMAppBarState extends State<TMAppBar> {
   Future<void> _signOut() async {
     await AuthController.clearUserData();
     Navigator.pushNamedAndRemoveUntil(
-        context, LoginScreen.name, (predicate) => false);
+      context,
+      LoginScreen.name,
+      (predicate) => false,
+    );
   }
 }

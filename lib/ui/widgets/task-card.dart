@@ -27,7 +27,7 @@ class _taskCardState extends State<taskCard> {
       title: Text(widget.taskModel.title),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 8,
+        spacing: 10,
         children: [
           Text(
             widget.taskModel.description,

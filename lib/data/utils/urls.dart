@@ -14,4 +14,6 @@ class Urls {
   static const String updateProfile = "$_baseUrl/ProfileUpdate";
   static const String cancelledTaskListUrl =
       "$_baseUrl/listTaskByStatus/Cancelled";
+  static const String completedTaskListUrl =
+      "$_baseUrl/listTaskByStatus/Completed";
 }
