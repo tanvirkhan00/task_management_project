@@ -188,10 +188,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
        UserModel model = UserModel(
            id: AuthController.userModel!.id,
            email: _emailEditingController.text,
-           firstname: _fnameEditingController.text,
-           lastname: _lnameEditingController.text,
+           firstName: _fnameEditingController.text,
+           lastName: _lnameEditingController.text,
            mobile: _numberEditingController.text,
-           photo: encodedPhoto ?? AuthController.userModel!.photo,
+           photo: encodedPhoto ?? AuthController.userModel!.photo, firstname: '', lastname: '',
        );
        AuthController.updateUserdata(model);
        showSnakbarMessage(context, "Profile has been updated !");
