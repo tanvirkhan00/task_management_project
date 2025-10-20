@@ -45,7 +45,7 @@ class _TMAppBarState extends State<TMAppBar> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  AuthController.userModel?.FullName ?? '',
+                  AuthController.userModel?.fullName ?? '',
                   style: Theme.of(
                     context,
                   ).textTheme.titleSmall?.copyWith(color: Colors.white),
