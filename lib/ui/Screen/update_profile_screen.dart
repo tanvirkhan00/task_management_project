@@ -10,6 +10,8 @@ import 'package:task_managenent/data/utils/urls.dart';
 import 'package:task_managenent/ui/controllers/auth-controller.dart';
 import 'package:task_managenent/ui/widgets/snack_bar_message.dart';
 import 'package:task_managenent/ui/widgets/tm_appbar.dart';
+import 'package:file_picker/file_picker.dart';
+
 
 import '../widgets/photo_picker.dart';
 
@@ -188,10 +190,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
        UserModel model = UserModel(
            id: AuthController.userModel!.id,
            email: _emailEditingController.text,
-           firstName: _fnameEditingController.text,
-           lastName: _lnameEditingController.text,
+           firstname: _fnameEditingController.text,
+           lastname: _lnameEditingController.text,
            mobile: _numberEditingController.text,
-           photo: encodedPhoto ?? AuthController.userModel!.photo, firstname: '', lastname: '',
+           photo: encodedPhoto ?? AuthController.userModel!.photo,
        );
        AuthController.updateUserdata(model);
        showSnakbarMessage(context, "Profile has been updated !");
@@ -201,12 +203,28 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   Future<void> _pickImage() async {
-    XFile? pickedImage = await _imagePicker.pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      _selectedImage = pickedImage ;
-      setState(() {});
+    try {
+      // For mobile
+      if (Theme.of(context).platform == TargetPlatform.android ||
+          Theme.of(context).platform == TargetPlatform.iOS) {
+        XFile? pickedImage = await _imagePicker.pickImage(source: ImageSource.gallery);
+        if (pickedImage != null) {
+          _selectedImage = pickedImage;
+          setState(() {});
+        }
+      } else {
+        // For desktop (Windows/macOS/Linux)
+        final result = await FilePicker.platform.pickFiles(type: FileType.image);
+        if (result != null && result.files.single.path != null) {
+          _selectedImage = XFile(result.files.single.path!);
+          setState(() {});
+        }
+      }
+    } catch (e) {
+      print('Image pick error: $e');
     }
   }
+
 
   @override
   void dispose() {

@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
   Future<void> _moveNextScreen () async {
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Duration(seconds: 3));
     final bool isLoggedIn = await AuthController.isUserAlreadyLoggedIn();
     if (isLoggedIn) {
        AuthController.getUserData();
@@ -39,7 +39,11 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: ScreenBackground(
         child: Center(
-          child: SvgPicture.asset(AssetPaths.logoImage, height: 60,),
+          child: Image.asset('assets/image/TaskManegerLogo.png',
+          fit: BoxFit.cover,
+            width: 300,
+            height: 300,
+          )
         
         ),
       ),
