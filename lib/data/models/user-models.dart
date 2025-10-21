@@ -14,17 +14,17 @@ class UserModel {
     required this.firstname,
     required this.lastname,
     required this.mobile,
-    required this.photo, required String firstName, required String lastName,
+    required this.photo,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> jsonData) {
     return UserModel(
-      id: jsonData['_id'] ?? jsonData['id'] ?? '',
+      id: jsonData['_id'] ?? '',
       email: jsonData['email'] ?? '',
-      firstname: jsonData['firstName'] ?? jsonData['firstname'] ?? '',
-      lastname: jsonData['lastName'] ?? jsonData['lastname'] ?? '',
+      firstname: jsonData['firstName'] ?? '',
+      lastname: jsonData['lastName'] ?? '',
       mobile: jsonData['mobile'] ?? '',
-      photo: jsonData['photo'] ?? '', firstName: '', lastName: '',
+      photo: jsonData['photo'] ?? '', // 👈 Fallback for missing 'photo'
     );
   }
 
