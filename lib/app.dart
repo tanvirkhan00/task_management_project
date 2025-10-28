@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_managenent/ui/Screen/forget_password_screen.dart';
 import 'package:task_managenent/ui/Screen/login_screen.dart';
 import 'package:task_managenent/ui/Screen/main_nav_holder_Screen.dart';
 import 'package:task_managenent/ui/Screen/signup_screen.dart';
 import 'package:task_managenent/ui/Screen/splash_screen.dart';
 import 'package:task_managenent/ui/Screen/update_profile_screen.dart';
+import 'package:task_managenent/ui/controllers/login-provider.dart';
 
 class TaskManager extends StatelessWidget {
   const TaskManager({super.key});
