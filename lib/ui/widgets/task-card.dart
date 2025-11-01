@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_managenent/data/models/task_model.dart';
 import 'package:task_managenent/data/services/apiCaller.dart';
 import 'package:task_managenent/data/utils/urls.dart';
+import 'package:task_managenent/ui/controllers/task_count_provider.dart';
 import 'package:task_managenent/ui/widgets/snack_bar_message.dart';
 
 class taskCard extends StatefulWidget {
@@ -127,7 +128,6 @@ class _taskCardState extends State<taskCard> {
     if(status == widget.taskModel.status) {
       return ;
     }
-
     Navigator.pop(context);
 
     _changeStatusInProgress = true;
@@ -138,6 +138,7 @@ class _taskCardState extends State<taskCard> {
     _changeStatusInProgress = false;
     setState(() {});
     if(response.isSuccess) {
+      context.read<TaskCountProvider>().getTaskCount();
       widget.refreshParent();
     } else {
       showSnakbarMessage(context, response.errorMessage!);
@@ -152,6 +153,7 @@ class _taskCardState extends State<taskCard> {
     _deleteTaskInProgress = false;
     setState(() {});
     if(response.isSuccess) {
+      context.read<TaskCountProvider>().getTaskCount();
       widget.refreshParent();
     } else {
       showSnakbarMessage(context, response.errorMessage!);

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_managenent/data/services/apiCaller.dart';
 import 'package:task_managenent/data/utils/urls.dart';
+import 'package:task_managenent/ui/controllers/new_task_list_provider.dart';
+import 'package:task_managenent/ui/controllers/task_count_provider.dart';
 import 'package:task_managenent/ui/widgets/screen_background.dart';
 import 'package:task_managenent/ui/widgets/snack_bar_message.dart';
 import 'package:task_managenent/ui/widgets/tm_appbar.dart';
@@ -105,6 +108,8 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     setState(() {});
 
     if (response.isSuccess) {
+      context.read<NewTaskListProvider>().getNewTasks();
+      context.read<TaskCountProvider>().getTaskCount();
       _clearFields();
       showSnakbarMessage(context, "New Task Added");
     } else {

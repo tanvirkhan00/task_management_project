@@ -1,18 +1,15 @@
-
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:task_managenent/data/models/user-models.dart';
 import 'package:task_managenent/data/services/apiCaller.dart';
 import 'package:task_managenent/data/utils/urls.dart';
 import 'package:task_managenent/ui/controllers/auth-controller.dart';
+import 'package:task_managenent/ui/controllers/auth_provider.dart';
 import 'package:task_managenent/ui/widgets/snack_bar_message.dart';
 import 'package:task_managenent/ui/widgets/tm_appbar.dart';
 import 'package:file_picker/file_picker.dart';
-
-
 import '../widgets/photo_picker.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
@@ -195,7 +192,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
            mobile: _numberEditingController.text,
            photo: encodedPhoto ?? AuthController.userModel!.photo,
        );
-       AuthController.updateUserdata(model);
+       context.read<AuthProvider>().updateUser(model);
        showSnakbarMessage(context, "Profile has been updated !");
      } else {
        showSnakbarMessage(context, response.errorMessage!);

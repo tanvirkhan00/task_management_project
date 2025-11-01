@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:task_managenent/ui/Screen/forget_password_screen.dart';
 import 'package:task_managenent/ui/Screen/login_screen.dart';
 import 'package:task_managenent/ui/Screen/main_nav_holder_Screen.dart';
 import 'package:task_managenent/ui/Screen/signup_screen.dart';
 import 'package:task_managenent/ui/Screen/splash_screen.dart';
 import 'package:task_managenent/ui/Screen/update_profile_screen.dart';
+import 'package:task_managenent/ui/controllers/auth_provider.dart';
+import 'package:task_managenent/ui/controllers/login-provider.dart';
+import 'package:task_managenent/ui/controllers/new_task_list_provider.dart';
+import 'package:task_managenent/ui/controllers/task_count_provider.dart';
 
 class TaskManager extends StatelessWidget {
   const TaskManager({super.key});
@@ -13,52 +18,59 @@ class TaskManager extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: SplashScreen.name,
-      navigatorKey: navigator,
-      routes: {
-        SplashScreen.name : (_) => SplashScreen(),
-        SignupScreen.name : (_) => SignupScreen(),
-        LoginScreen.name : (_) => LoginScreen(),
-        MainNavHolderScreen.name: (_) => MainNavHolderScreen(),
-        UpdateProfileScreen.name: (_) => UpdateProfileScreen(),
-        ForgetPasswordViaEmail.name : (_) => ForgetPasswordViaEmail(),
-      },
-      theme: ThemeData(
-        colorSchemeSeed: Colors.green,
-        textTheme: TextTheme(
-          titleLarge: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.w600
-          )
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-            fillColor: Colors.white,
-            filled: true,
-            contentPadding: EdgeInsets.symmetric(horizontal: 16),
-            hintStyle: TextStyle(
-                color: Colors.grey
-            ),
-            border: OutlineInputBorder(
-                borderSide: BorderSide.none
-            ),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide.none
-            ),
-            errorBorder: OutlineInputBorder(
-                borderSide: BorderSide.none
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => NewTaskListProvider()),
+        ChangeNotifierProvider(create: (_) => TaskCountProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider())
+      ],
+      child: MaterialApp(
+        initialRoute: SplashScreen.name,
+        navigatorKey: navigator,
+        routes: {
+          SplashScreen.name : (_) => SplashScreen(),
+          SignupScreen.name : (_) => SignupScreen(),
+          LoginScreen.name : (_) => LoginScreen(),
+          MainNavHolderScreen.name: (_) => MainNavHolderScreen(),
+          UpdateProfileScreen.name: (_) => UpdateProfileScreen(),
+          ForgetPasswordViaEmail.name : (_) => ForgetPasswordViaEmail(),
+        },
+        theme: ThemeData(
+          colorSchemeSeed: Colors.green,
+          textTheme: TextTheme(
+            titleLarge: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w600
             )
-        ),
-        filledButtonTheme: FilledButtonThemeData(
-          style: FilledButton.styleFrom(
-              fixedSize: Size.fromWidth(double.maxFinite),
-              padding: EdgeInsets.symmetric(vertical: 12),
-              backgroundColor: Colors.green,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+              fillColor: Colors.white,
+              filled: true,
+              contentPadding: EdgeInsets.symmetric(horizontal: 16),
+              hintStyle: TextStyle(
+                  color: Colors.grey
+              ),
+              border: OutlineInputBorder(
+                  borderSide: BorderSide.none
+              ),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none
+              ),
+              errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide.none
               )
           ),
-        )
+          filledButtonTheme: FilledButtonThemeData(
+            style: FilledButton.styleFrom(
+                fixedSize: Size.fromWidth(double.maxFinite),
+                padding: EdgeInsets.symmetric(vertical: 12),
+                backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)
+                )
+            ),
+          )
+        ),
       ),
     );
   }
