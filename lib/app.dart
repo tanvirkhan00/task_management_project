@@ -6,6 +6,7 @@ import 'package:task_managenent/ui/Screen/main_nav_holder_Screen.dart';
 import 'package:task_managenent/ui/Screen/signup_screen.dart';
 import 'package:task_managenent/ui/Screen/splash_screen.dart';
 import 'package:task_managenent/ui/Screen/update_profile_screen.dart';
+import 'package:task_managenent/ui/controllers/auth_provider.dart';
 import 'package:task_managenent/ui/controllers/login-provider.dart';
 import 'package:task_managenent/ui/controllers/new_task_list_provider.dart';
 import 'package:task_managenent/ui/controllers/task_count_provider.dart';
@@ -20,7 +21,8 @@ class TaskManager extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => NewTaskListProvider()),
-        ChangeNotifierProvider(create: (_) => TaskCountProvider())
+        ChangeNotifierProvider(create: (_) => TaskCountProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider())
       ],
       child: MaterialApp(
         initialRoute: SplashScreen.name,
